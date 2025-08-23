@@ -1,0 +1,61 @@
+[
+  {
+    "module": "basics",
+    "title": "Python Basics",
+    "description": "Learn the fundamentals of Python programming",
+    "color": "blue",
+    "lessons": [
+      {
+        "id": "introduction",
+        "title": "What is Python?",
+        "description": "Discover what Python is and why it's great for beginners"
+      },
+      {
+        "id": "variables",
+        "title": "Variables and Data",
+        "description": "Learn how to store and use information in Python"
+      },
+      {
+        "id": "strings",
+        "title": "Working with Text",
+        "description": "Learn how to work with words and sentences in Python"
+      }
+    ]
+  },
+  {
+    "module": "control",
+    "title": "Making Decisions",
+    "description": "Learn how to make your programs smart with conditions",
+    "color": "green",
+    "lessons": [
+      {
+        "id": "if-statements",
+        "title": "If Statements",
+        "description": "Make your program choose what to do"
+      },
+      {
+        "id": "loops",
+        "title": "Loops and Repetition",
+        "description": "Make your program repeat actions automatically"
+      }
+    ]
+  },
+  {
+    "module": "functions",
+    "title": "Functions and Organization",
+    "description": "Learn how to organize your code into reusable pieces",
+    "color": "purple",
+    "lessons": [
+      {
+        "id": "creating-functions",
+        "title": "Creating Functions",
+        "description": "Learn how to create your own Python functions"
+      },
+      {
+        "id": "parameters",
+        "title": "Function Parameters",
+        "description": "Make your functions more flexible with parameters"
+      }
+    ]
+  }
+]
