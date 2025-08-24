@@ -38,18 +38,20 @@ export function Navigation() {
                 (item.href === "/problems" && pathname.startsWith("/problems"))
 
               return (
-                <Link key={item.href} href={item.href}>
-                  <Button
-                    variant="ghost"
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 text-sm font-medium",
-                      isActive ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
-                    )}
-                  >
+                <Button
+                  asChild
+                  key={item.href}
+                  variant="ghost"
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 text-sm font-medium",
+                    isActive ? "text-blue-600 bg-blue-50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
+                  )}
+                >
+                  <Link href={item.href}>
                     <Icon className="h-4 w-4" />
                     {item.label}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )
             })}
           </div>

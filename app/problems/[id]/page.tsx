@@ -6,7 +6,25 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, Play, RotateCcw } from "lucide-react"
 import Link from "next/link"
-import { CodeEditor } from "@/components/code-editor"
+import dynamic from "next/dynamic"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const CodeEditor = dynamic(() => import("@/components/code-editor").then((mod) => mod.CodeEditor), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full p-4 bg-gray-50">
+      <div className="flex items-center justify-between mb-4">
+        <Skeleton className="h-8 w-48" />
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-24" />
+        </div>
+      </div>
+      <Skeleton className="h-[calc(100%-4rem)] w-full" />
+    </div>
+  ),
+})
 
 const problems = [
   {
@@ -103,9 +121,9 @@ export default function ProblemSolver({ params }: ProblemSolverProps) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Problem Not Found</h1>
-          <Link href="/problems">
-            <Button>Back to Problems</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/problems">Back to Problems</Link>
+          </Button>
         </div>
       </div>
     )
@@ -204,26 +222,10 @@ export default function ProblemSolver({ params }: ProblemSolverProps) {
           </div>
 
           {/* Code Editor */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Code Editor</h2>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={resetCode}>
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Reset
-                </Button>
-                <Button size="sm" onClick={runCode} disabled={isRunning}>
-                  <Play className="h-4 w-4 mr-2" />
-                  {isRunning ? "Running..." : "Run Code"}
-                </Button>
-              </div>
+          <div className="space-y-2">
+            <div className="h-[600px] border rounded-lg overflow-hidden">
+              <CodeEditor initialCode={code} onChange={setCode} />
             </div>
-
-            <Card className="h-[600px]">
-              <CardContent className="p-0 h-full">
-                <CodeEditor initialCode={code} onChange={setCode} />
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

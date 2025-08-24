@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -20,9 +20,24 @@ export function Sidebar({ className }: SidebarProps) {
   const [expandedModules, setExpandedModules] = useState<string[]>([])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
+  useEffect(() => {
+    const currentModule = topicsData.find(topic => pathname.startsWith(`/topics/${topic.module}`))?.module
+    if (currentModule && !expandedModules.includes(currentModule)) {
+      setExpandedModules(prev => [...prev, currentModule])
+    }
+  }, [pathname, expandedModules])
+
   const toggleModule = (module: string) => {
     setExpandedModules((prev) => (prev.includes(module) ? prev.filter((m) => m !== module) : [...prev, module]))
   }
+
+  // Automatically expand the current topic's lesson list based on the page URL
+  useEffect(() => {
+    const currentTopic = topicsData.find((topic) => pathname.startsWith(`/topics/${topic.module}`))
+    if (currentTopic) {
+      setExpandedModules((prev) => [...new Set([...prev, currentTopic.module])])
+    }
+  }, [pathname, topicsData])
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-sidebar">
@@ -42,25 +57,25 @@ export function Sidebar({ className }: SidebarProps) {
 
       <ScrollArea className="flex-1 px-4">
         <div className="space-y-2 py-4">
-          <Link href="/">
-            <Button
-              variant={pathname === "/" ? "default" : "ghost"}
-              className="w-full justify-start hover:bg-sidebar-accent/10"
-            >
+          <Button asChild
+            variant={pathname === "/" ? "default" : "ghost"}
+            className="w-full justify-start hover:bg-sidebar-accent/10"
+          >
+            <Link href="/">
               <Home className="h-4 w-4 mr-2" />
               Home
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
-          <Link href="/topics">
-            <Button
-              variant={pathname === "/topics" ? "default" : "ghost"}
-              className="w-full justify-start hover:bg-sidebar-accent/10"
-            >
+          <Button asChild
+            variant={pathname === "/topics" ? "default" : "ghost"}
+            className="w-full justify-start hover:bg-sidebar-accent/10"
+          >
+            <Link href="/topics">
               <BookOpen className="h-4 w-4 mr-2" />
               All Adventures
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
           <Separator className="my-4" />
 
@@ -91,19 +106,20 @@ export function Sidebar({ className }: SidebarProps) {
                       const isLessonActive = pathname === lessonPath
 
                       return (
-                        <Link key={lesson.id} href={lessonPath}>
-                          <Button
-                            variant={isLessonActive ? "default" : "ghost"}
-                            size="sm"
-                            className="w-full justify-start text-sm hover:bg-sidebar-accent/10"
-                          >
+                        <Button asChild
+                          key={lesson.id}
+                          variant={isLessonActive ? "default" : "ghost"}
+                          size="sm"
+                          className="w-full justify-start text-sm hover:bg-sidebar-accent/10"
+                        >
+                          <Link href={lessonPath}>
                             <div className="flex items-center gap-2 flex-1">
                               <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                               <span className="flex-1 text-left">{lesson.title}</span>
                               <span className="text-xs text-muted-foreground">{lessonIndex + 1}</span>
                             </div>
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       )
                     })}
                   </div>

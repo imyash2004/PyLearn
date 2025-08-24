@@ -110,12 +110,12 @@ export default function DashboardPage() {
                 <p className="text-sm text-gray-600 mb-4">
                   Learn about Python variables, strings, numbers, and basic data types.
                 </p>
-                <Link href="/topics/basics/variables">
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                  <Link href="/topics/basics/variables">
                     <BookOpen className="h-4 w-4 mr-2" />
                     Start Tutorial
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -147,12 +147,12 @@ export default function DashboardPage() {
                     basics
                   </Badge>
                 </div>
-                <Link href="/problems">
-                  <Button variant="outline">
+                <Button asChild variant="outline">
+                  <Link href="/problems">
                     <Code className="h-4 w-4 mr-2" />
                     Solve Problem
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>

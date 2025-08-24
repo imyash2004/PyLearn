@@ -6,12 +6,42 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, ArrowRight, BookOpen, Code2, Maximize2, Minimize2, Award } from "lucide-react"
 import Link from "next/link"
-import { MarkdownRenderer } from "./markdown-renderer"
-// Table of Contents removed
-import { CodeEditor } from "./code-editor"
 import { InteractiveQuiz } from "./interactive-quiz"
 import { useToast } from "@/hooks/use-toast"
 import topicsData from "@/content/topics.json"
+import dynamic from "next/dynamic"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const MarkdownRenderer = dynamic(() => import("./markdown-renderer").then((mod) => mod.MarkdownRenderer), {
+  ssr: false,
+  loading: () => (
+    <div className="space-y-4 p-6">
+      <Skeleton className="h-8 w-3/4" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="h-10 w-full bg-gray-200" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-4/6" />
+    </div>
+  ),
+})
+
+const CodeEditor = dynamic(() => import("./code-editor").then((mod) => mod.CodeEditor), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full p-4 bg-gray-50">
+      <div className="flex items-center justify-between mb-4">
+        <Skeleton className="h-8 w-48" />
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-24" />
+        </div>
+      </div>
+      <Skeleton className="h-[calc(100%-4rem)] w-full" />
+    </div>
+  ),
+})
 
 interface LessonContentProps {
   module: string
@@ -130,15 +160,6 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
 
   return (
     <div className="flex-1 bg-gray-50 relative">
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-20 left-4 z-50 bg-white border border-gray-200 rounded-lg p-2 shadow-lg hover:bg-gray-50 transition-colors"
-      >
-        <svg className="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
@@ -155,6 +176,9 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
           </Link>
           <h2 className="text-lg font-semibold text-gray-900">{topic?.title}</h2>
           <p className="text-sm text-gray-600 mt-1">{topic?.description}</p>
+          <div className="text-xs text-gray-500 mt-2">
+            {topic?.lessons.length} lessons in this topic
+          </div>
         </div>
 
         <ScrollArea className="flex-1">
@@ -197,13 +221,27 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
   <div className="flex-1 flex flex-col">
         {/* Header */}
         <div className="bg-white border-b border-gray-200 p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/topics">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Topics
+              </Link>
+            </Button>
+            <span className="text-gray-400">•</span>
+            <Button asChild variant="ghost" size="sm">
+              <Link href={`/topics/${module}`}>
+                {topic?.title}
+              </Link>
+            </Button>
+          </div>
+          
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <BookOpen className="h-6 w-6 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900">{lessonData.frontmatter.title}</h1>
             </div>
             <div className="flex items-center gap-3">
-              {/* Contents button removed */}
               <Button variant="outline" size="sm" onClick={() => setEditorFullscreen(true)}>
                 <Code2 className="h-4 w-4 mr-2" />
                 Code Editor
@@ -237,7 +275,7 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
         </div>
 
         {/* Content Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Lesson Content */}
           <div className="">
             <ScrollArea className="h-[calc(100vh-200px)]">
@@ -254,10 +292,14 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
             </ScrollArea>
           </div>
 
-          {/* Code Editor - sticky on large screens */}
-          <div className="hidden lg:block border-l border-gray-200">
-            <div className="sticky top-24 h-[calc(100vh-140px)]">
-              <CodeEditor />
+          {/* Code Editor - sticky on large screens, full height on mobile */}
+          <div className="border-l-0 lg:border-l border-gray-200">
+            <div className="lg:sticky lg:top-24 h-[400px] lg:h-[calc(100vh-140px)]">
+              <CodeEditor
+                initialCode={
+                  topic?.lessons.find((l) => l.id === lesson)?.defaultCode ?? "// Select a lesson to see code"
+                }
+              />
             </div>
           </div>
         </div>
@@ -267,22 +309,22 @@ export function LessonContent({ module, lesson, initialData }: LessonContentProp
           <div className="flex items-center justify-between max-w-4xl mx-auto">
             <div>
               {prevLesson && (
-                <Link href={`/topics/${module}/${prevLesson.id}`}>
-                  <Button variant="outline" className="border-gray-300 bg-transparent">
+                <Button asChild variant="outline" className="border-gray-300 bg-transparent">
+                  <Link href={`/topics/${module}/${prevLesson.id}`}>
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     {prevLesson.title}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )}
             </div>
             <div>
               {nextLesson && (
-                <Link href={`/topics/${module}/${nextLesson.id}`}>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                  <Link href={`/topics/${module}/${nextLesson.id}`}>
                     {nextLesson.title}
                     <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )}
             </div>
           </div>

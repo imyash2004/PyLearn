@@ -8,17 +8,20 @@
       {
         "id": "introduction",
         "title": "What is Python?",
-        "description": "Discover what Python is and why it's great for beginners"
+        "description": "Discover what Python is and why it's great for beginners",
+        "defaultCode": "print(\"Hello, Python World!\")"
       },
       {
         "id": "variables",
         "title": "Variables and Data",
-        "description": "Learn how to store and use information in Python"
+        "description": "Learn how to store and use information in Python",
+        "defaultCode": "name = \"Alex\"\nage = 10\nprint(f\"My name is {name} and I am {age} years old.\")"
       },
       {
         "id": "strings",
         "title": "Working with Text",
-        "description": "Learn how to work with words and sentences in Python"
+        "description": "Learn how to work with words and sentences in Python",
+        "defaultCode": "message = \"python is fun\"\nprint(message.upper())\nprint(len(message))"
       }
     ]
   },
@@ -31,12 +34,14 @@
       {
         "id": "if-statements",
         "title": "If Statements",
-        "description": "Make your program choose what to do"
+        "description": "Make your program choose what to do",
+        "defaultCode": "temperature = 25\n\nif temperature > 30:\n    print(\"It's a hot day!\")\nelse:\n    print(\"It's not too hot.\")"
       },
       {
         "id": "loops",
         "title": "Loops and Repetition",
-        "description": "Make your program repeat actions automatically"
+        "description": "Make your program repeat actions automatically",
+        "defaultCode": "for i in range(5):\n    print(f\"This is loop number {i+1}\")"
       }
     ]
   },
@@ -49,12 +54,14 @@
       {
         "id": "creating-functions",
         "title": "Creating Functions",
-        "description": "Learn how to create your own Python functions"
+        "description": "Learn how to create your own Python functions",
+        "defaultCode": "def greet():\n    print(\"Hello from a function!\")\n\ngreet()"
       },
       {
         "id": "parameters",
         "title": "Function Parameters",
-        "description": "Make your functions more flexible with parameters"
+        "description": "Make your functions more flexible with parameters",
+        "defaultCode": "def greet(name):\n    print(f\"Hello, {name}!\")\n\ngreet(\"Alice\")\ngreet(\"Bob\")"
       }
     ]
   }

@@ -120,4 +120,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Ensure hand cursor on all interactive elements */
+  a[href], button, [role='button'] {
+    cursor: pointer;
+  }
 }

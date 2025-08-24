@@ -9,11 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  experimental: {
-    // Ensure markdown content is available to server functions on Vercel
-    outputFileTracingIncludes: {
-      "app/**": ["content/**"],
-    },
+  // Ensure markdown content is available to server functions on Vercel
+  outputFileTracingIncludes: {
+    "app/**": ["content/**"],
   },
 }
 

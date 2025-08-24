@@ -154,12 +154,12 @@ export default function ProblemsPage() {
                     {problem.estimatedTime}
                   </div>
                 </div>
-                <Link href={`/problems/${problem.id}`}>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Link href={`/problems/${problem.id}`}>
                     <Code className="h-4 w-4 mr-2" />
                     Solve Problem
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           ))}

@@ -25,12 +25,12 @@ export default function TopicsPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-12">
-          <Link href="/">
-            <Button variant="ghost" className="mb-6 hover:bg-primary/10">
+          <Button asChild variant="ghost" className="mb-6 hover:bg-primary/10">
+            <Link href="/">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <div className="text-center">
             <h1 className="text-4xl font-bold gradient-text mb-4">Choose Your Adventure!</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
@@ -102,12 +102,14 @@ export default function TopicsPage() {
                     )}
                   </div>
 
-                  <Link href={`/topics/${topic.module}`} className="block">
-                    <Button className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+                  <Button
+                    asChild
+                    className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                  >
+                    <Link href={`/topics/${topic.module}`} className="block">
                       Start Adventure
-                      <div className="ml-2 text-lg">🎯</div>
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>

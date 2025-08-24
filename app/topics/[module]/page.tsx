@@ -31,12 +31,12 @@ export default async function ModulePage({ params }: ModulePageProps) {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link href="/topics">
-            <Button variant="ghost" className="mb-4">
+          <Button asChild variant="ghost" className="mb-4">
+            <Link href="/topics">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Topics
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
           <div
             className={`bg-gradient-to-r ${colorMap[topic.color as keyof typeof colorMap]} text-white rounded-lg p-6 mb-8`}
@@ -69,12 +69,12 @@ export default async function ModulePage({ params }: ModulePageProps) {
                       <CardDescription>{lesson.description}</CardDescription>
                     </div>
                   </div>
-                  <Link href={`/topics/${module}/${lesson.id}`}>
-                    <Button>
+                  <Button asChild>
+                    <Link href={`/topics/${module}/${lesson.id}`}>
                       <Play className="h-4 w-4 mr-2" />
                       Start Lesson
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </CardHeader>
             </Card>

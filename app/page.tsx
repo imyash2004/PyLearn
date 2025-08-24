@@ -46,18 +46,18 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
-                <Link href="/topics">
-                  <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                  <Link href="/topics">
                     <BookOpen className="h-4 w-4 mr-2" />
                     Start Learning
-                  </Button>
-                </Link>
-                <Link href="/problems">
-                  <Button variant="outline">
+                  </Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="/problems">
                     <Code className="h-4 w-4 mr-2" />
                     Practice Problems
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
